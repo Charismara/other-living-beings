@@ -8,4 +8,6 @@ import net.minecraftforge.registries.ObjectHolder;
 public class Abilities {
     @ObjectHolder("small_being")
     public static final Ability SmallBeing = null;
+    @ObjectHolder("no_legs")
+    public static final Ability NoLegs = null;
 }
