@@ -1,12 +1,11 @@
 package de.blutmondgilde.otherlivingbeings.network.packets;
 
-import de.blutmondgilde.otherlivingbeings.api.capability.Capabilities;
 import de.blutmondgilde.otherlivingbeings.capability.BeingCapability;
-import net.minecraft.client.Minecraft;
+import de.blutmondgilde.otherlivingbeings.client.OLBClient;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -28,16 +27,7 @@ public class SyncLivingCapabilityPacket {
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            final Player clientPlayer = Minecraft.getInstance().player;
-            final Entity entity = clientPlayer.level.getEntity(this.tag.getInt("entityId"));
-            entity.getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-                //Update Capability
-                beingCapability.deserializeNBT(this.tag);
-                //Update player size
-                entity.refreshDimensions();
-            });
-        });
+        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> OLBClient.syncLocalCapability(this.tag)));
         ctx.get().setPacketHandled(true);
     }
 }
