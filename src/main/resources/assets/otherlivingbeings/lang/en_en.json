@@ -1,9 +1,0 @@
-{
-  "otherlivingbeings.ability.smallbeinghp.name": "Small Being",
-  "otherlivingbeings.ability.smallbeinghp.0": "You are a very small being which results in a lower base health value.",
-  "otherlivingbeings.ability.smallbeinghp.1": "Your base Health has been reduced to 10 HP",
-  "otherlivingbeings.ability.nolegs.name": "No Legs",
-  "otherlivingbeings.ability.nolegs.0": "Well... since you got no legs... How do you want to walk?",
-  "otherlivingbeings.ability.nolegs.1": "The answer is easy. You can't. You need to jump form block to block."
-
-}

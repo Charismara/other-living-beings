@@ -13,15 +13,15 @@ public class CapabilityHandler {
         forgeBus.addListener(CapabilityHandler::onDimChanged);
     }
 
-    public static void onLoggIn(final PlayerEvent.PlayerLoggedInEvent e) {
+    private static void onLoggIn(final PlayerEvent.PlayerLoggedInEvent e) {
         syncCapabilities(e);
     }
 
-    public static void onRespawn(final PlayerEvent.PlayerRespawnEvent e) {
+    private static void onRespawn(final PlayerEvent.PlayerRespawnEvent e) {
         syncCapabilities(e);
     }
 
-    public static void onDimChanged(final PlayerEvent.PlayerChangedDimensionEvent e) {
+    private static void onDimChanged(final PlayerEvent.PlayerChangedDimensionEvent e) {
         syncCapabilities(e);
     }
 

@@ -1,15 +1,16 @@
 package de.blutmondgilde.otherlivingbeings.beings;
 
-import de.blutmondgilde.otherlivingbeings.ability.NoLegsAbility;
-import de.blutmondgilde.otherlivingbeings.ability.SmallBeingHPAbility;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
+import de.blutmondgilde.otherlivingbeings.registry.Abilities;
 
 import java.util.Optional;
 
 public class SmallSlime extends LivingBeing {
     public SmallSlime() {
         super(Optional.empty());
-        addAbility(new SmallBeingHPAbility());
-        addAbility(new NoLegsAbility());
+        addAbility(Abilities.SmallBeing);
+        addAbility(Abilities.NoLegs);
+        addAbility(Abilities.JumperTier1);
+        addAbility(Abilities.Bouncy);
     }
 }

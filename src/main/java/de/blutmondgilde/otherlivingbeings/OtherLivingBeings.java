@@ -2,6 +2,7 @@ package de.blutmondgilde.otherlivingbeings;
 
 import de.blutmondgilde.otherlivingbeings.capability.OLBCapabilityManager;
 import de.blutmondgilde.otherlivingbeings.handler.CapabilityHandler;
+import de.blutmondgilde.otherlivingbeings.handler.PlayerEventHandler;
 import de.blutmondgilde.otherlivingbeings.network.OLBNetworkHandler;
 import de.blutmondgilde.otherlivingbeings.registry.AbilityRegistry;
 import de.blutmondgilde.otherlivingbeings.registry.LivingBeingRegistry;
@@ -27,6 +28,7 @@ public class OtherLivingBeings {
 
         final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
         CapabilityHandler.init(forgeEventBus);
+        PlayerEventHandler.init(forgeEventBus);
 
         OLBCapabilityManager.init(modEventBus, forgeEventBus);
     }

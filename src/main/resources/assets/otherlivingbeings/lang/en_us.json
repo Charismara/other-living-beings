@@ -1,0 +1,17 @@
+{
+  "otherlivingbeings.ability.smallbeinghp.name": "Small Being",
+  "otherlivingbeings.ability.smallbeinghp.0": "You are a very small being which results in a lower base health value.",
+  "otherlivingbeings.ability.smallbeinghp.1": "Your base Health has been reduced to 10 HP",
+  "otherlivingbeings.ability.nolegs.name": "No Legs",
+  "otherlivingbeings.ability.nolegs.0": "Well... since you got no legs... How do you want to walk?",
+  "otherlivingbeings.ability.nolegs.1": "The answer is easy. You can't. You need to jump form block to block.",
+  "otherlivingbeings.ability.jumpertier1.name": "Jumping Movement Tier 1",
+  "otherlivingbeings.ability.jumpertier1.0": "You are a trained jumper.",
+  "otherlivingbeings.ability.jumpertier1.1": "You jump 50% higher.",
+  "otherlivingbeings.ability.jumpertier2.name": "Jumping Movement Tier 2",
+  "otherlivingbeings.ability.jumpertier2.0": "You are a professional jumper.",
+  "otherlivingbeings.ability.jumpertier2.1": "You jump 150% higher.",
+  "otherlivingbeings.ability.bouncy.name": "Bouncy",
+  "otherlivingbeings.ability.bouncy.0": "You are kinda bouncy.",
+  "otherlivingbeings.ability.bouncy.1": "Instead of getting fall damage, you bounce off the block."
+}
