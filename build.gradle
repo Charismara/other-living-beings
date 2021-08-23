@@ -8,11 +8,13 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath "io.freefair.gradle:lombok-plugin:6.1.0"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: "io.freefair.lombok"
+apply plugin: "com.matthewprenger.cursegradle"
 
 group = 'de.blutmondgilde'
 version = project.modVersion
@@ -20,6 +22,22 @@ version = project.modVersion
 java {
     archivesBaseName = project.modId
     toolchain.languageVersion = JavaLanguageVersion.of(16)
+}
+
+curseforge {
+    apiKey = curseforge_apikey
+    project {
+        id = 519914
+        releaseType = modVersionType
+        addGameVersion = minecraftVersion
+        mainArtifact(jar) {
+            displayName = "${project.minecraftVersion}-${project.modVersion}"
+        }
+        options {
+            javaVersionAutoDetect = true
+
+        }
+    }
 }
 
 minecraft {
