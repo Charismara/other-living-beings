@@ -14,7 +14,7 @@ public class NoLegsAbility extends AttributeAbility {
                 Attributes.MOVEMENT_SPEED,
                 UUID.fromString("a9f7aead-c844-48f1-b581-5ff21c0b75ac"),
                 "OtherLivingBeings.NoLegs",
-                0);
+                0F - 0.1F);
     }
 
 

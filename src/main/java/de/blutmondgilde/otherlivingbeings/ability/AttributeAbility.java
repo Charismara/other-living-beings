@@ -36,6 +36,6 @@ public class AttributeAbility extends Ability implements AttributeUpdateListener
 
     @Override
     public void removeAttribute(Player player) {
-        player.getAttribute(this.attribute).removeModifier(attributeModifier);
+        player.getAttribute(this.attribute).removePermanentModifier(attributeModifier.getId());
     }
 }
