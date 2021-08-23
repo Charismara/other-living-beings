@@ -3,6 +3,8 @@ package de.blutmondgilde.otherlivingbeings.api.livingbeings;
 import de.blutmondgilde.otherlivingbeings.api.abilities.Ability;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
@@ -34,5 +36,10 @@ public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
             //Just to be sure the ability will be removed
             abilities.removeIf(ability1 -> ability.getRegistryName().equals(ability1.getRegistryName()));
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void renderModel() {
+
     }
 }
