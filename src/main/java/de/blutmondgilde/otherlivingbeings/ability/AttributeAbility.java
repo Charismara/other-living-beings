@@ -25,17 +25,18 @@ public class AttributeAbility extends Ability implements AttributeUpdateListener
     }
 
     @Override
-    public void applyAttribute(Player player) {
+    public void applyAttribute(final Player player) {
         final AttributeInstance attributeInstance = player.getAttribute(this.attribute);
         if (attributeInstance.hasModifier(attributeModifier)) {
             removeAttribute(player);
         }
         attributeInstance.addPermanentModifier(attributeModifier);
-        player.setHealth(Math.min(player.getHealth(), this.value));
+        //Trigger Attribute update
+        player.setHealth(Math.min(player.getHealth(), (float) attributeInstance.getValue()));
     }
 
     @Override
-    public void removeAttribute(Player player) {
+    public void removeAttribute(final Player player) {
         player.getAttribute(this.attribute).removePermanentModifier(attributeModifier.getId());
     }
 }
