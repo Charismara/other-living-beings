@@ -1,15 +1,15 @@
 package de.blutmondgilde.otherlivingbeings.api.livingbeings;
 
 import de.blutmondgilde.otherlivingbeings.api.abilities.Ability;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     private final Optional<LivingBeing> evolveInto;
     @Getter

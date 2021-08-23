@@ -18,6 +18,8 @@ public interface BeingCapability extends ICapabilitySerializable<CompoundTag> {
     public static void sync(final Player player) {
         //Update on Server Side
         AttributeHandler.apply(player);
+        //Update player size
+        player.refreshDimensions();
         //Update on Client Side
         OLBNetworkHandler.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new SyncLivingCapabilityPacket(player.getCapability(Capabilities.BEING)
                 .orElseThrow(() -> new IllegalStateException("Tried to Sync non existent capability")), player.getId()));

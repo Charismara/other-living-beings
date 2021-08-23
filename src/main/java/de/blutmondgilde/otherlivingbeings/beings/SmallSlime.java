@@ -12,5 +12,6 @@ public class SmallSlime extends LivingBeing {
         addAbility(Abilities.NoLegs);
         addAbility(Abilities.JumperTier1);
         addAbility(Abilities.Bouncy);
+        addAbility(Abilities.ShortBody);
     }
 }

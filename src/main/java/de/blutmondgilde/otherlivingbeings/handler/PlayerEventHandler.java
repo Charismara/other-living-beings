@@ -3,8 +3,10 @@ package de.blutmondgilde.otherlivingbeings.handler;
 import de.blutmondgilde.otherlivingbeings.api.abilities.listener.PlayerFallListener;
 import de.blutmondgilde.otherlivingbeings.api.abilities.listener.PlayerLogInListener;
 import de.blutmondgilde.otherlivingbeings.api.abilities.listener.PlayerLogOutListener;
+import de.blutmondgilde.otherlivingbeings.api.abilities.listener.PlayerSizeListener;
 import de.blutmondgilde.otherlivingbeings.api.capability.Capabilities;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,6 +18,7 @@ public class PlayerEventHandler {
         forgeBus.addListener(PlayerEventHandler::onLogIn);
         forgeBus.addListener(PlayerEventHandler::onLogOut);
         forgeBus.addListener(PlayerEventHandler::onFallDamage);
+        forgeBus.addListener(PlayerEventHandler::onPlayerSize);
     }
 
     private static void onLogIn(final PlayerEvent.PlayerLoggedInEvent e) {
@@ -46,5 +49,21 @@ public class PlayerEventHandler {
 
         e.setDamageMultiplier(fallDamage.get());
         if (e.getDistance() <= 0) e.setCanceled(true);
+    }
+
+    private static void onPlayerSize(EntityEvent.Size e) {
+        if (!(e.getEntity() instanceof Player)) return;
+        final Player player = (Player) e.getEntity();
+        player.getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
+            beingCapability.getLivingBeing().getAbilities().stream()
+                    .filter(ability -> ability instanceof PlayerSizeListener)
+                    .map(ability -> (PlayerSizeListener) ability)
+                    .findFirst()
+                    .ifPresent(playerSizeListener -> {
+                        e.setNewSize(e.getNewSize().scale(playerSizeListener.getSize()));
+                        e.setNewEyeHeight(e.getNewEyeHeight() * playerSizeListener.getSize());
+                        player.setPos(player.getX(), player.getY(), player.getZ());
+                    });
+        });
     }
 }

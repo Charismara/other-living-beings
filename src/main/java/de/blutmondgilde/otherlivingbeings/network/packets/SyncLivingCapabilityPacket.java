@@ -2,7 +2,6 @@ package de.blutmondgilde.otherlivingbeings.network.packets;
 
 import de.blutmondgilde.otherlivingbeings.api.capability.Capabilities;
 import de.blutmondgilde.otherlivingbeings.capability.BeingCapability;
-import de.blutmondgilde.otherlivingbeings.handler.AttributeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,10 +34,8 @@ public class SyncLivingCapabilityPacket {
             entity.getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
                 //Update Capability
                 beingCapability.deserializeNBT(this.tag);
-                //Update Attributes
-                if (entity instanceof Player) {
-                    AttributeHandler.apply((Player) entity);
-                }
+                //Update player size
+                entity.refreshDimensions();
             });
         });
         ctx.get().setPacketHandled(true);

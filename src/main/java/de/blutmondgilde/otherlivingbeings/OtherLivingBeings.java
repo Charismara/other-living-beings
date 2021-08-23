@@ -1,14 +1,17 @@
 package de.blutmondgilde.otherlivingbeings;
 
 import de.blutmondgilde.otherlivingbeings.capability.OLBCapabilityManager;
+import de.blutmondgilde.otherlivingbeings.client.OLBClient;
 import de.blutmondgilde.otherlivingbeings.handler.CapabilityHandler;
 import de.blutmondgilde.otherlivingbeings.handler.PlayerEventHandler;
 import de.blutmondgilde.otherlivingbeings.network.OLBNetworkHandler;
 import de.blutmondgilde.otherlivingbeings.registry.AbilityRegistry;
 import de.blutmondgilde.otherlivingbeings.registry.LivingBeingRegistry;
 import lombok.Getter;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -31,6 +34,7 @@ public class OtherLivingBeings {
         PlayerEventHandler.init(forgeEventBus);
 
         OLBCapabilityManager.init(modEventBus, forgeEventBus);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> OLBClient.init(modEventBus, forgeEventBus));
     }
 
     private void setup(final FMLCommonSetupEvent e) {

@@ -16,4 +16,6 @@ public class Abilities {
     public static final Ability JumperTier2 = null;
     @ObjectHolder("bouncy")
     public static final Ability Bouncy = null;
+    @ObjectHolder("short_body")
+    public static final Ability ShortBody = null;
 }

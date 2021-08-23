@@ -13,5 +13,7 @@
   "otherlivingbeings.ability.jumpertier2.1": "You jump 150% higher.",
   "otherlivingbeings.ability.bouncy.name": "Bouncy",
   "otherlivingbeings.ability.bouncy.0": "You are kinda bouncy.",
-  "otherlivingbeings.ability.bouncy.1": "Instead of getting fall damage, you bounce off the block."
+  "otherlivingbeings.ability.bouncy.1": "Instead of getting fall damage, you bounce off the block.",
+  "otherlivingbeings.ability.shortbody.name": "Short Body",
+  "otherlivingbeings.ability.shortbody.0": "You are just a block tall."
 }
