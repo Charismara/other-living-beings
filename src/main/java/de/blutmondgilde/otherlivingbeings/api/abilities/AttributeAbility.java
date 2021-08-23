@@ -1,6 +1,5 @@
-package de.blutmondgilde.otherlivingbeings.ability;
+package de.blutmondgilde.otherlivingbeings.api.abilities;
 
-import de.blutmondgilde.otherlivingbeings.api.abilities.Ability;
 import de.blutmondgilde.otherlivingbeings.api.abilities.listener.AttributeUpdateListener;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;

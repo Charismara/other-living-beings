@@ -1,5 +1,6 @@
 package de.blutmondgilde.otherlivingbeings.ability;
 
+import de.blutmondgilde.otherlivingbeings.api.abilities.AttributeAbility;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
