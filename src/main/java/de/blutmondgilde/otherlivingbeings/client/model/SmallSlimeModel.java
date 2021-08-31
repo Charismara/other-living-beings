@@ -16,7 +16,7 @@ public class SmallSlimeModel extends PlayerModel<AbstractClientPlayer> {
     private final ModelPart root;
 
     public SmallSlimeModel(ModelPart parent) {
-        super(parent, false); //Required since PlayerModel need that shit
+        super(parent, false);
         this.root = parent;
     }
 
