@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "otherlivingbeings",
+  "version": "${version}",
+  "name": "OtherLivingBeings",
+  "description": "",
+  "authors": [
+    "MrProfessor"
+  ],
+  "contact": {
+    "website": "https://github.com/Charismara/other-living-beings",
+    "repo": "https://github.com/Charismara/other-living-beings"
+  },
+  "license": "MIT",
+  "icon": "assets/otherlivingbeings/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "de.blutmondgilde.otherlivingbeings.client.OtherlivingbeingsClient"
+    ],
+    "main": [
+      "de.blutmondgilde.otherlivingbeings.Otherlivingbeings"
+    ]
+  },
+  "mixins": [
+    "otherlivingbeings.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
