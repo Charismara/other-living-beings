@@ -25,10 +25,13 @@ public class SmallSlime extends LivingBeing {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int partialTicks) {
+    public void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int light, final float partialTicks) {
         final Slime entity = EntityType.SLIME.create(player.level);
         entity.setSize(0, false);
+        entity.setPos(player.getX(), player.getY(), player.getZ());
+        entity.setXRot(player.getXRot());
+        entity.setYRot(player.getYRot());
 
-        Minecraft.getInstance().getEntityRenderDispatcher().render(entity, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot(), poseStack, buffer, partialTicks);
+        Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, 0F, partialTicks, poseStack, buffer, light);
     }
 }

@@ -42,5 +42,5 @@ public abstract class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public abstract void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int partialTicks);
+    public abstract void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int light, final float partialTicks);
 }

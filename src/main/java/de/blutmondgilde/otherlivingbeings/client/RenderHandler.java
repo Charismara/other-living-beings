@@ -15,8 +15,7 @@ public class RenderHandler {
     public static void onPreRenderPlayer(RenderPlayerEvent.Pre e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
             e.setCanceled(true);
-            beingCapability.getLivingBeing().renderPlayer(e.getPlayer(), e.getMatrixStack(),e.getBuffers(), e.getLight());
-
+            beingCapability.getLivingBeing().renderPlayer(e.getPlayer(), e.getMatrixStack(), e.getBuffers(), e.getLight(), e.getPartialRenderTick());
         });
     }
 }
