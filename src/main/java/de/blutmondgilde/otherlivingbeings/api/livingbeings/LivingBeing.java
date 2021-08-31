@@ -1,11 +1,11 @@
 package de.blutmondgilde.otherlivingbeings.api.livingbeings;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.blutmondgilde.otherlivingbeings.api.abilities.Ability;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public abstract class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
+public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     private final Optional<LivingBeing> evolveInto;
     @Getter
     private final ArrayList<Ability> abilities = new ArrayList<>();
@@ -42,10 +42,12 @@ public abstract class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int light, final float partialTicks) {}
+    public Optional<ResourceLocation> getModelTexture() {
+        return Optional.empty();
+    }
 
-
-    public boolean hasCustomModel() {
-        return false;
+    @OnlyIn(Dist.CLIENT)
+    public Optional<PlayerModel<AbstractClientPlayer>> getModel() {
+        return Optional.empty();
     }
 }

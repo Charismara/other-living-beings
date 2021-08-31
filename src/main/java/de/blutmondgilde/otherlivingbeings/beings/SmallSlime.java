@@ -1,19 +1,21 @@
 package de.blutmondgilde.otherlivingbeings.beings;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import de.blutmondgilde.otherlivingbeings.api.client.model.PlayerModelReplacement;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
+import de.blutmondgilde.otherlivingbeings.client.model.SmallSlimeModel;
 import de.blutmondgilde.otherlivingbeings.registry.Abilities;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Optional;
 
 public class SmallSlime extends LivingBeing {
+    @OnlyIn(Dist.CLIENT)
+    public static final ResourceLocation SLIME_LOCATION = new ResourceLocation("textures/entity/slime/slime.png");
+
     public SmallSlime() {
         super(Optional.empty());
         addAbility(Abilities.SmallBeing);
@@ -25,15 +27,17 @@ public class SmallSlime extends LivingBeing {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int light, final float partialTicks) {
-        final Slime entity = EntityType.SLIME.create(player.level);
-        entity.setSize(0, false);
-        entity.setPos(player.getX(), player.getY(), player.getZ());
-        entity.setXRot(player.getXRot());
-        entity.setYRot(player.getYRot());
-        entity.setYHeadRot(player.getYHeadRot());
-        entity.setOldPosAndRot();
+    public Optional<ResourceLocation> getModelTexture() {
+        return Optional.of(SLIME_LOCATION);
+    }
 
-        Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, 0F, partialTicks, poseStack, buffer, light);
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public Optional<PlayerModel<AbstractClientPlayer>> getModel() {
+        return Optional.of(new SmallSlimeModel(PlayerModelReplacement.Builder.create()
+                .addModelPart(SmallSlimeModel.createInnerBodyLayer().bakeRoot())
+                .addModelPart(SmallSlimeModel.createOuterBodyLayer().bakeRoot())
+                .build()
+                .toModelPart()));
     }
 }
