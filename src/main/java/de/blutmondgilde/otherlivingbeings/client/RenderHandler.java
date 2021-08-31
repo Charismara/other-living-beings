@@ -14,10 +14,9 @@ public class RenderHandler {
 
     public static void onPreRenderPlayer(RenderPlayerEvent.Pre e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            //TODO cancel event
-            //e.setCanceled(true);
-            //TODO Render Player based on his being
-            beingCapability.getLivingBeing().renderModel();
+            e.setCanceled(true);
+            beingCapability.getLivingBeing().renderPlayer(e.getPlayer(), e.getMatrixStack(),e.getBuffers(), e.getLight());
+
         });
     }
 }

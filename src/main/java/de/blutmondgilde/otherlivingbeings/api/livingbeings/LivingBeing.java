@@ -1,8 +1,11 @@
 package de.blutmondgilde.otherlivingbeings.api.livingbeings;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.blutmondgilde.otherlivingbeings.api.abilities.Ability;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -12,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
+public abstract class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     private final Optional<LivingBeing> evolveInto;
     @Getter
     private final ArrayList<Ability> abilities = new ArrayList<>();
@@ -39,7 +42,5 @@ public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderModel() {
-
-    }
+    public abstract void renderPlayer(final Player player, final PoseStack poseStack, final MultiBufferSource buffer, final int partialTicks);
 }

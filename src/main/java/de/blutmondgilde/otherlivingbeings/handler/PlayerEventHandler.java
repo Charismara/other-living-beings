@@ -60,8 +60,8 @@ public class PlayerEventHandler {
                     .map(ability -> (PlayerSizeListener) ability)
                     .findFirst()
                     .ifPresent(playerSizeListener -> {
-                        e.setNewSize(e.getNewSize().scale(playerSizeListener.getSize()));
-                        e.setNewEyeHeight(e.getNewEyeHeight() * playerSizeListener.getSize());
+                        e.setNewSize(playerSizeListener.getSize(e.getNewSize()));
+                        e.setNewEyeHeight(playerSizeListener.getEyeHeight(e.getNewEyeHeight()));
                         player.setPos(player.getX(), player.getY(), player.getZ());
                     });
         });
