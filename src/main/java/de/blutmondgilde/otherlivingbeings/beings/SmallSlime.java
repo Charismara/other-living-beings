@@ -31,6 +31,8 @@ public class SmallSlime extends LivingBeing {
         entity.setPos(player.getX(), player.getY(), player.getZ());
         entity.setXRot(player.getXRot());
         entity.setYRot(player.getYRot());
+        entity.setYHeadRot(player.getYHeadRot());
+        entity.setOldPosAndRot();
 
         Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, 0F, partialTicks, poseStack, buffer, light);
     }
