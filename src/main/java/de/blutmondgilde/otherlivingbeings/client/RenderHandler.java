@@ -4,8 +4,10 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import de.blutmondgilde.otherlivingbeings.OtherLivingBeings;
 import de.blutmondgilde.otherlivingbeings.api.capability.Capabilities;
 import de.blutmondgilde.otherlivingbeings.api.client.event.RenderArmorEvent;
+import de.blutmondgilde.otherlivingbeings.api.client.event.RenderItemInHandEvent;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ArmorRenderListener;
+import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ItemInHandRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ModelRendererListener;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.Pose;
@@ -21,6 +23,9 @@ public class RenderHandler {
         forgeBus.addListener(RenderHandler::onPreRenderArmor);
         forgeBus.addListener(RenderHandler::onApplyArmorRenderModifier);
         forgeBus.addListener(RenderHandler::onResetArmorRenderModifier);
+        forgeBus.addListener(RenderHandler::onPreRenderItemInHand);
+        forgeBus.addListener(RenderHandler::onApplyItemInHandRenderModifier);
+        forgeBus.addListener(RenderHandler::onRemoveItemInHandRenderModifier);
     }
 
     public static void onPreRenderPlayer(final RenderPlayerEvent.Pre e) {
@@ -69,6 +74,33 @@ public class RenderHandler {
             if (beingCapability.getLivingBeing() instanceof ArmorRenderListener) {
                 final ArmorRenderListener listener = (ArmorRenderListener) beingCapability.getLivingBeing();
                 listener.resetArmorRenderModifier(e);
+            }
+        });
+    }
+
+    public static void onPreRenderItemInHand(final RenderItemInHandEvent.Pre e) {
+        e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
+            if (beingCapability.getLivingBeing() instanceof ItemInHandRenderListener) {
+                final ItemInHandRenderListener listener = (ItemInHandRenderListener) beingCapability.getLivingBeing();
+                listener.beforeItemInHandRender(e);
+            }
+        });
+    }
+
+    public static void onApplyItemInHandRenderModifier(final RenderItemInHandEvent.ApplyModifier e) {
+        e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
+            if (beingCapability.getLivingBeing() instanceof ItemInHandRenderListener) {
+                final ItemInHandRenderListener listener = (ItemInHandRenderListener) beingCapability.getLivingBeing();
+                listener.applyItemInHandRenderModifier(e);
+            }
+        });
+    }
+
+    public static void onRemoveItemInHandRenderModifier(final RenderItemInHandEvent.ResetModifier e) {
+        e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
+            if (beingCapability.getLivingBeing() instanceof ItemInHandRenderListener) {
+                final ItemInHandRenderListener listener = (ItemInHandRenderListener) beingCapability.getLivingBeing();
+                listener.resetItemInHandRenderModifier(e);
             }
         });
     }
