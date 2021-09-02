@@ -35,6 +35,24 @@ public class SmallSlimeModel extends PlayerModel<AbstractClientPlayer> {
         stack.translate(0, 0, 0);
     }
 
+    public static LayerDefinition createLeftArm() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create()
+                .texOffs(48, 16)
+                .addBox(-3, 0, -3, 3, 0, 3), PartPose.ZERO);
+        return LayerDefinition.create(meshdefinition, 64, 32);
+    }
+
+    public static LayerDefinition createRightArm() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create()
+                .texOffs(48, 16)
+                .addBox(3, 0, -3, 3, 0, 3), PartPose.ZERO);
+        return LayerDefinition.create(meshdefinition, 64, 32);
+    }
+
     public static LayerDefinition createHat() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();

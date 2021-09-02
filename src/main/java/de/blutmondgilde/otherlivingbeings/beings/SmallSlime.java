@@ -2,6 +2,7 @@ package de.blutmondgilde.otherlivingbeings.beings;
 
 import de.blutmondgilde.otherlivingbeings.api.client.event.RenderArmorEvent;
 import de.blutmondgilde.otherlivingbeings.api.client.model.PlayerModelReplacement;
+import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomItemInHandLayer;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ArmorRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ModelRendererListener;
@@ -48,8 +49,8 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
                 SmallSlimeModel.createHead().bakeRoot(),
                 SmallSlimeModel.createHat().bakeRoot(),
                 SmallSlimeModel.createBody().bakeRoot(),
-                emptyPart,
-                emptyPart,
+                SmallSlimeModel.createRightArm().bakeRoot(),
+                SmallSlimeModel.createLeftArm().bakeRoot(),
                 emptyPart,
                 emptyPart,
                 emptyPart,
@@ -64,7 +65,8 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
         renderer.layers.clear();
         //Add Armor Layer
         renderer.addLayer(new CustomArmorLayer<>(renderer));
-
+        //Add Item in hand Layer
+        renderer.addLayer(new CustomItemInHandLayer<>(renderer));
         return model;
     }
 
