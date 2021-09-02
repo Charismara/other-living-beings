@@ -6,7 +6,7 @@ import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ArmorRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ModelRendererListener;
 import de.blutmondgilde.otherlivingbeings.client.model.SmallSlimeModel;
-import de.blutmondgilde.otherlivingbeings.api.client.layer.CustomArmorLayer;
+import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomArmorLayer;
 import de.blutmondgilde.otherlivingbeings.registry.Abilities;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
