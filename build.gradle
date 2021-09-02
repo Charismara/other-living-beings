@@ -43,7 +43,6 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-
             // Recommended logging data for a userdev environment
             // The markers can be added/removed as needed separated by commas.
             // "SCAN": For mods scan.

@@ -3,11 +3,6 @@ package de.blutmondgilde.otherlivingbeings.api.livingbeings;
 import de.blutmondgilde.otherlivingbeings.api.abilities.Ability;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.ArrayList;
@@ -39,15 +34,5 @@ public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
             //Just to be sure the ability will be removed
             abilities.removeIf(ability1 -> ability.getRegistryName().equals(ability1.getRegistryName()));
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public Optional<ResourceLocation> getModelTexture() {
-        return Optional.empty();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public Optional<PlayerModel<AbstractClientPlayer>> getModel() {
-        return Optional.empty();
     }
 }
