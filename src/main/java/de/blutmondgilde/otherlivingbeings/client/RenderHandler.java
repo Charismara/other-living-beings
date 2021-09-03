@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
+@SuppressWarnings("ConstantConditions")
 @OnlyIn(Dist.CLIENT)
 public class RenderHandler {
     public static void init(final IEventBus forgeBus) {
@@ -29,12 +30,10 @@ public class RenderHandler {
     }
 
     public static void onPreRenderPlayer(final RenderPlayerEvent.Pre e) {
-        if (!(e.getPlayer() instanceof AbstractClientPlayer)) return;
-        final AbstractClientPlayer player = (AbstractClientPlayer) e.getPlayer();
+        if (!(e.getPlayer() instanceof final AbstractClientPlayer player)) return;
         player.getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
             final LivingBeing being = beingCapability.getLivingBeing();
-            if (being instanceof ModelRendererListener) {
-                final ModelRendererListener listener = (ModelRendererListener) being;
+            if (being instanceof final ModelRendererListener listener) {
                 //Replace Texture with Model Texture
                 try {
                     player.getPlayerInfo().textureLocations.remove(MinecraftProfileTexture.Type.SKIN);
@@ -53,8 +52,7 @@ public class RenderHandler {
 
     public static void onPreRenderArmor(final RenderArmorEvent.Pre e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            if (beingCapability.getLivingBeing() instanceof ArmorRenderListener) {
-                final ArmorRenderListener listener = (ArmorRenderListener) beingCapability.getLivingBeing();
+            if (beingCapability.getLivingBeing() instanceof final ArmorRenderListener listener) {
                 listener.beforeRenderArmor(e);
             }
         });
@@ -62,8 +60,7 @@ public class RenderHandler {
 
     public static void onApplyArmorRenderModifier(final RenderArmorEvent.ApplyModifier e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            if (beingCapability.getLivingBeing() instanceof ArmorRenderListener) {
-                final ArmorRenderListener listener = (ArmorRenderListener) beingCapability.getLivingBeing();
+            if (beingCapability.getLivingBeing() instanceof final ArmorRenderListener listener) {
                 listener.applyArmorRenderModifier(e);
             }
         });
@@ -71,8 +68,7 @@ public class RenderHandler {
 
     public static void onResetArmorRenderModifier(final RenderArmorEvent.ResetModifier e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            if (beingCapability.getLivingBeing() instanceof ArmorRenderListener) {
-                final ArmorRenderListener listener = (ArmorRenderListener) beingCapability.getLivingBeing();
+            if (beingCapability.getLivingBeing() instanceof final ArmorRenderListener listener) {
                 listener.resetArmorRenderModifier(e);
             }
         });
@@ -80,8 +76,7 @@ public class RenderHandler {
 
     public static void onPreRenderItemInHand(final RenderItemInHandEvent.Pre e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            if (beingCapability.getLivingBeing() instanceof ItemInHandRenderListener) {
-                final ItemInHandRenderListener listener = (ItemInHandRenderListener) beingCapability.getLivingBeing();
+            if (beingCapability.getLivingBeing() instanceof final ItemInHandRenderListener listener) {
                 listener.beforeItemInHandRender(e);
             }
         });
@@ -89,8 +84,7 @@ public class RenderHandler {
 
     public static void onApplyItemInHandRenderModifier(final RenderItemInHandEvent.ApplyModifier e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            if (beingCapability.getLivingBeing() instanceof ItemInHandRenderListener) {
-                final ItemInHandRenderListener listener = (ItemInHandRenderListener) beingCapability.getLivingBeing();
+            if (beingCapability.getLivingBeing() instanceof final ItemInHandRenderListener listener) {
                 listener.applyItemInHandRenderModifier(e);
             }
         });
@@ -98,8 +92,7 @@ public class RenderHandler {
 
     public static void onRemoveItemInHandRenderModifier(final RenderItemInHandEvent.ResetModifier e) {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
-            if (beingCapability.getLivingBeing() instanceof ItemInHandRenderListener) {
-                final ItemInHandRenderListener listener = (ItemInHandRenderListener) beingCapability.getLivingBeing();
+            if (beingCapability.getLivingBeing() instanceof final ItemInHandRenderListener listener) {
                 listener.resetItemInHandRenderModifier(e);
             }
         });
