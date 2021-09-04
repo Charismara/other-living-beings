@@ -5,7 +5,9 @@
   "refmap": "otherlivingbeings.refmap.json",
   "priority": 0,
   "mixins": [],
-  "client": [],
+  "client": [
+    "MixinItemRenderer"
+  ],
   "server": [],
   "minVersion": "0.8",
   "injectors": {

@@ -1,4 +1,4 @@
-package de.blutmondgilde.otherlivingbeings.api.client.event;
+package de.blutmondgilde.otherlivingbeings.client.event;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.AllArgsConstructor;

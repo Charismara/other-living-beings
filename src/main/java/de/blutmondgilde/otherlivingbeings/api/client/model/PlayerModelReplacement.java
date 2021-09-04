@@ -2,7 +2,6 @@ package de.blutmondgilde.otherlivingbeings.api.client.model;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,24 +16,6 @@ public class PlayerModelReplacement {
     private final ModelPart body;
     private final ModelPart right_arm;
     private final ModelPart left_arm;
-
-    public PlayerModelReplacement(LayerDefinition head, LayerDefinition hat, LayerDefinition body, LayerDefinition right_arm, LayerDefinition left_arm, LayerDefinition right_leg, LayerDefinition left_leg, LayerDefinition ear, LayerDefinition cloak, LayerDefinition left_sleeve, LayerDefinition right_sleeve, LayerDefinition left_pants, LayerDefinition right_pants, LayerDefinition jacket) {
-        this.head = head.bakeRoot();
-        this.hat = hat.bakeRoot();
-        this.body = body.bakeRoot();
-        this.right_arm = right_arm.bakeRoot();
-        this.left_arm = left_arm.bakeRoot();
-        this.right_leg = right_leg.bakeRoot();
-        this.left_leg = left_leg.bakeRoot();
-        this.ear = ear.bakeRoot();
-        this.cloak = cloak.bakeRoot();
-        this.left_sleeve = left_sleeve.bakeRoot();
-        this.right_sleeve = right_sleeve.bakeRoot();
-        this.left_pants = left_pants.bakeRoot();
-        this.right_pants = right_pants.bakeRoot();
-        this.jacket = jacket.bakeRoot();
-    }
-
     private final ModelPart right_leg;
     private final ModelPart left_leg;
     private final ModelPart ear;

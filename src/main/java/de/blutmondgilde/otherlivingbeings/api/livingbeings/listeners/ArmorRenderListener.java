@@ -1,6 +1,6 @@
 package de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners;
 
-import de.blutmondgilde.otherlivingbeings.api.client.event.RenderArmorEvent;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderArmorEvent;
 
 public interface ArmorRenderListener {
     void beforeRenderArmor(RenderArmorEvent.Pre e);

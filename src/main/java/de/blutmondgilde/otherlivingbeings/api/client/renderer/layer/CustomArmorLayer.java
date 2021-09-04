@@ -2,7 +2,7 @@ package de.blutmondgilde.otherlivingbeings.api.client.renderer.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.blutmondgilde.otherlivingbeings.api.client.event.RenderArmorEvent;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderArmorEvent;
 import de.blutmondgilde.otherlivingbeings.util.PlayerRendererUtils;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;

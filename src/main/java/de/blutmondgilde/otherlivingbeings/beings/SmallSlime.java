@@ -1,13 +1,17 @@
 package de.blutmondgilde.otherlivingbeings.beings;
 
-import de.blutmondgilde.otherlivingbeings.api.client.event.RenderArmorEvent;
+import com.mojang.math.Vector3f;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderArmorEvent;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderItemInHandEvent;
 import de.blutmondgilde.otherlivingbeings.api.client.model.PlayerModelReplacement;
+import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomArmorLayer;
 import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomItemInHandLayer;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ArmorRenderListener;
+import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ItemInHandRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ModelRendererListener;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderItemLayerEvent;
 import de.blutmondgilde.otherlivingbeings.client.model.SmallSlimeModel;
-import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomArmorLayer;
 import de.blutmondgilde.otherlivingbeings.registry.Abilities;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,6 +19,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,7 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class SmallSlime extends LivingBeing implements ArmorRenderListener, ModelRendererListener {
+public class SmallSlime extends LivingBeing implements ArmorRenderListener, ModelRendererListener, ItemInHandRenderListener {
     @OnlyIn(Dist.CLIENT)
     public static final ResourceLocation SLIME_LOCATION = new ResourceLocation("textures/entity/slime/slime.png");
     private static final ModelPart emptyPart = new ModelPart(new ArrayList<>(), new HashMap<>());
@@ -95,7 +100,48 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
             case HEAD -> {
                 e.getPoseStack().translate(0, 0, 0);
                 e.getPoseStack().scale(1F, 1F, 1F);
+                e.getPoseStack().mulPose(Vector3f.XP.rotationDegrees(-45));
             }
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void beforeItemInHandRender(RenderItemInHandEvent.Pre e) {
+        //Nothing to do here
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void applyItemInHandRenderModifier(RenderItemInHandEvent.ApplyModifier e) {
+        e.getPoseStack().translate(0, -0.5, -0.1);
+        if (e.getItemStack().is(Items.SPYGLASS) && e.getPlayer().getUseItem() == e.getItemStack() && e.getPlayer().swingTime == 0) {
+            e.getPoseStack().translate(-0.05, 0.525, 0.05);
+        }
+        e.getPoseStack().scale(0.9F, 0.9F, 0.9F);
+        e.getPoseStack().mulPose(Vector3f.XP.rotationDegrees(-15));
+        if (e.getItemStack().is(Items.SPYGLASS) && e.getPlayer().getUseItem() == e.getItemStack() && e.getPlayer().swingTime == 0) {
+            e.getPoseStack().mulPose(Vector3f.XP.rotationDegrees(55));
+        }
+
+        e.getRenderer().model.leftArm.zRot = 0;
+        e.getRenderer().model.rightArm.zRot = 0;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void resetItemInHandRenderModifier(RenderItemInHandEvent.ResetModifier e) {
+        e.getPoseStack().translate(0, 0, 0);
+        e.getPoseStack().scale(1F, 1F, 1F);
+        e.getPoseStack().mulPose(Vector3f.XP.rotationDegrees(15));
+        if (e.getItemStack().is(Items.SPYGLASS) && e.getPlayer().getUseItem() == e.getItemStack() && e.getPlayer().swingTime == 0) {
+            e.getPoseStack().mulPose(Vector3f.XP.rotationDegrees(-45));
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void onRenderItemInHand(RenderItemLayerEvent e) {
+        e.getItemTransform().rotation.setZ(0);
     }
 }

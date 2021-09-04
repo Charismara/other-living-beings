@@ -3,12 +3,13 @@ package de.blutmondgilde.otherlivingbeings.client;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import de.blutmondgilde.otherlivingbeings.OtherLivingBeings;
 import de.blutmondgilde.otherlivingbeings.api.capability.Capabilities;
-import de.blutmondgilde.otherlivingbeings.api.client.event.RenderArmorEvent;
-import de.blutmondgilde.otherlivingbeings.api.client.event.RenderItemInHandEvent;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderArmorEvent;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderItemInHandEvent;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ArmorRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ItemInHandRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ModelRendererListener;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderItemLayerEvent;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.Pose;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,6 +28,7 @@ public class RenderHandler {
         forgeBus.addListener(RenderHandler::onPreRenderItemInHand);
         forgeBus.addListener(RenderHandler::onApplyItemInHandRenderModifier);
         forgeBus.addListener(RenderHandler::onRemoveItemInHandRenderModifier);
+        forgeBus.addListener(RenderHandler::onRenderItemLayer);
     }
 
     public static void onPreRenderPlayer(final RenderPlayerEvent.Pre e) {
@@ -47,6 +49,7 @@ public class RenderHandler {
 
             //TODO only Replace Pose if living being can do that pose
             player.setPose(Pose.STANDING);
+
         });
     }
 
@@ -94,6 +97,14 @@ public class RenderHandler {
         e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
             if (beingCapability.getLivingBeing() instanceof final ItemInHandRenderListener listener) {
                 listener.resetItemInHandRenderModifier(e);
+            }
+        });
+    }
+
+    public static void onRenderItemLayer(final RenderItemLayerEvent e) {
+        e.getPlayer().getCapability(Capabilities.BEING).ifPresent(beingCapability -> {
+            if (beingCapability instanceof ItemInHandRenderListener listener) {
+                listener.onRenderItemInHand(e);
             }
         });
     }
