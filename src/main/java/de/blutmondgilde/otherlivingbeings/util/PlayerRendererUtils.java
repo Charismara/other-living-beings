@@ -13,7 +13,11 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.client.extensions.IForgeBakedModel;
 import net.minecraftforge.common.model.TransformationHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class PlayerRendererUtils {
     private static final Matrix4f flipX;
@@ -32,7 +36,23 @@ public class PlayerRendererUtils {
 
     public static BakedModel handleCameraTransforms(ItemTransforms.TransformType transformType, boolean leftHandHackery, PoseStack stack, BakedModel bakedModel) {
         PoseStack forgeStack = new PoseStack();
-        bakedModel = bakedModel.handlePerspective(transformType, forgeStack);
+        //bakedModel = bakedModel.handlePerspective(transformType, forgeStack);
+        try {
+            bakedModel = (BakedModel) ObfuscationReflectionHelper.findMethod(IForgeBakedModel.class, "self").invoke(bakedModel);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        //bakedModel = handlePerspective(bakedModel, transformType, forgeStack);
+        ItemTransform itemTransform = bakedModel.getTransforms().getTransform(transformType);
+
+        //final RenderItemLayerEvent renderItemLayerEvent = new RenderItemLayerEvent(player, itemStack, transformType, leftHandHackery, stack, bufferSource, combinedLight, combinedOverlay, bakedModel, itemTransform);
+        //MinecraftForge.EVENT_BUS.post(renderItemLayerEvent);
+        //itemTransform = renderItemLayerEvent.getItemTransform();
+
+        Transformation tr = TransformationHelper.toTransformation(itemTransform);
+        if (!tr.isIdentity()) {
+            tr.push(forgeStack);
+        }
 
         // If the stack is not empty, the code has added a matrix for us to use.
         if (!forgeStack.clear()) {
@@ -47,20 +67,6 @@ public class PlayerRendererUtils {
             }
             stack.last().pose().multiply(tMat);
             stack.last().normal().mul(nMat);
-        }
-        return bakedModel;
-    }
-
-    public static BakedModel handlePerspective(BakedModel bakedModel, ItemTransforms.TransformType transformType, PoseStack stack) {
-        ItemTransform itemTransform = bakedModel.getTransforms().getTransform(transformType);
-
-        //final RenderItemLayerEvent renderItemLayerEvent = new RenderItemLayerEvent(player, itemStack, transformType, leftHandHackery, stack, bufferSource, combinedLight, combinedOverlay, bakedModel, itemTransform);
-        //MinecraftForge.EVENT_BUS.post(renderItemLayerEvent);
-        //itemTransform = renderItemLayerEvent.getItemTransform();
-
-        Transformation tr = TransformationHelper.toTransformation(itemTransform);
-        if (!tr.isIdentity()) {
-            tr.push(stack);
         }
         return bakedModel;
     }
