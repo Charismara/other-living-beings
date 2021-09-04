@@ -138,6 +138,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.clothConfigVersion}")
     library "org.spongepowered:mixin:${project.mixinVersion}"
+    library "com.google.guava:guava:21.0"
     annotationProcessor "org.spongepowered:mixin:0.8.4-SNAPSHOT"
 }
 
