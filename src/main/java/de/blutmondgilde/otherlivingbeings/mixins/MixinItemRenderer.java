@@ -7,6 +7,7 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Transformation;
 import de.blutmondgilde.otherlivingbeings.api.capability.Capabilities;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderItemLayerEvent;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.RenderProperties;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.model.TransformationHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -82,24 +84,26 @@ public abstract class MixinItemRenderer {
             }
 
             //---- ForgeHooksClient.handleCameraTransforms ---- START
-            PoseStack forgeStack = new PoseStack();
-            //bakedModel = handlePerspective(bakedModel, transformType, forgeStack);
+            PoseStack itemPoseStack = new PoseStack();
             ItemTransform itemTransform = bakedModel.getTransforms().getTransform(transformType);
 
-            //final RenderItemLayerEvent renderItemLayerEvent = new RenderItemLayerEvent(player, itemStack, transformType, leftHandHackery, stack, bufferSource, combinedLight, combinedOverlay, bakedModel, itemTransform);
-            //MinecraftForge.EVENT_BUS.post(renderItemLayerEvent);
-            //itemTransform = renderItemLayerEvent.getItemTransform();
+            final RenderItemLayerEvent renderItemLayerEvent = new RenderItemLayerEvent(player, itemStack, transformType, leftHandHackery, itemPoseStack, bufferSource, combinedLight, combinedOverlay, bakedModel, itemTransform);
+            MinecraftForge.EVENT_BUS.post(renderItemLayerEvent);
+            itemTransform = renderItemLayerEvent.getItemTransform();
 
-            Transformation tr = TransformationHelper.toTransformation(itemTransform);
-            if (!tr.isIdentity()) {
-                tr.push(forgeStack);
+            //Transformation tr = TransformationHelper.toTransformation(itemTransform);
+            if (!itemTransform.equals(ItemTransform.NO_TRANSFORM)) {
+                Transformation tr = new Transformation(itemTransform.translation, TransformationHelper.quatFromXYZ(itemTransform.rotation, true), itemTransform.scale, null);
+                if (!tr.isIdentity()) {
+                    tr.push(itemPoseStack);
+                }
             }
 
             // If the stack is not empty, the code has added a matrix for us to use.
-            if (!forgeStack.clear()) {
+            if (!itemPoseStack.clear()) {
                 // Apply the transformation to the real matrix stack, flipping for left hand
-                Matrix4f tMat = forgeStack.last().pose();
-                Matrix3f nMat = forgeStack.last().normal();
+                Matrix4f tMat = itemPoseStack.last().pose();
+                Matrix3f nMat = itemPoseStack.last().normal();
                 if (leftHandHackery) {
                     tMat.multiplyBackward(flipX);
                     tMat.multiply(flipX);

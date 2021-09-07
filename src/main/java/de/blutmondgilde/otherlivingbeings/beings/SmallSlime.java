@@ -142,6 +142,6 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
     @OnlyIn(Dist.CLIENT)
     @Override
     public void onRenderItemInHand(RenderItemLayerEvent e) {
-        e.getItemTransform().rotation.setZ(0);
+        e.getStack().mulPose(Vector3f.ZP.rotationDegrees(-e.getItemTransform().rotation.z()));
     }
 }

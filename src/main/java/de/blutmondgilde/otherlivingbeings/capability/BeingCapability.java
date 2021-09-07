@@ -11,6 +11,8 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.fmllegacy.network.PacketDistributor;
 
 public interface BeingCapability extends ICapabilitySerializable<CompoundTag> {
+    boolean hasBeenChosen();
+
     LivingBeing getLivingBeing();
 
     void setLivingBeing(final LivingBeing livingBeing);

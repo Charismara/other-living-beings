@@ -26,19 +26,23 @@ public class BeingCapabilityImpl implements BeingCapability {
     @Getter
     private LivingBeing livingBeing;
     private final LazyOptional<BeingCapability> holder = LazyOptional.of(() -> this);
+    @Setter
+    private boolean hasBeenChosen;
 
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         if (livingBeing == null) return tag;
         tag.putString("being", livingBeing.getRegistryName().toString());
+        tag.putBoolean("chosen", hasBeenChosen);
         return tag;
     }
 
     @Override
     public void deserializeNBT(final CompoundTag nbt) {
         if (nbt.isEmpty()) return;
-        livingBeing = GameRegistry.findRegistry(LivingBeing.class).getValue(new ResourceLocation(nbt.getString("being")));
+        this.livingBeing = GameRegistry.findRegistry(LivingBeing.class).getValue(new ResourceLocation(nbt.getString("being")));
+        this.hasBeenChosen = nbt.getBoolean("chosen");
     }
 
     @Nonnull
@@ -56,5 +60,10 @@ public class BeingCapabilityImpl implements BeingCapability {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean hasBeenChosen() {
+        return this.hasBeenChosen;
     }
 }

@@ -47,6 +47,8 @@ public class SmallSlimeModel extends PlayerModel<AbstractClientPlayer> {
         }
         //Render Model
         super.renderToBuffer(stack, vertexConsumer, p_102036_, p_102037_, p_102038_, p_102039_, p_102040_, p_102041_);
+        this.leftArm.zRot = 0;
+        this.rightArm.zRot = 0;
         //Reset translation
         stack.translate(0, 0, 0);
     }
