@@ -18,4 +18,9 @@ public class Drowned extends LivingBeing {
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.DROWNED;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }

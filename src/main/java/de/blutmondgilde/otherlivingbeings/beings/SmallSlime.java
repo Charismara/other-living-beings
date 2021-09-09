@@ -147,4 +147,9 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.SLIME;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return true;
+    }
 }

@@ -20,7 +20,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraftforge.fmlclient.gui.GuiUtils;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
@@ -41,25 +43,19 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(poseStack);
         int i = this.getScrollbarPosition();
         int j = i + 3;
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferbuilder = tesselator.getBuilder();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
 
-        this.hovered = this.isMouseOver(mouseX, mouseY) ? this.getEntryAtPosition(mouseX, mouseY) : null;
-
         int j1 = this.getRowLeft();
         int k = this.y0 + 4 - (int) this.getScrollAmount();
-
-        this.renderHeader(poseStack, j1, k, tesselator);
 
         this.renderList(poseStack, j1, k, mouseX, mouseY, partialTicks);
 
         int k1 = this.getMaxScroll();
         if (k1 > 0) {
-            //TODO Replace with better scrollbar
             RenderSystem.disableTexture();
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
             int l1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
@@ -84,8 +80,6 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
             bufferbuilder.vertex(i, i2, 0.0D).color(192, 192, 192, 255).endVertex();
             tesselator.end();
         }
-
-        this.renderDecorations(poseStack, mouseX, mouseY);
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
     }
@@ -107,38 +101,42 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
     }
 
     private void renderEntry(final int index, final Tesselator tesselator, final BufferBuilder bufferBuilder, final PoseStack stack, int x, int y, int mouseX, int mouseY, float partialTicks) {
-        int k = this.getRowTop(index);
-        int l = this.getRowBottom(index);
-        if (l >= this.y0 && k <= this.y1) {
-            int i1 = y + index * this.itemHeight + this.headerHeight;
-            int j1 = this.itemHeight - 4;
-            Entry e = this.getEntry(index);
-            int k1 = this.getRowWidth();
-            if (this.renderSelection && this.isSelectedItem(index)) {
-                int l1 = this.x0 + this.width / 2 - k1 / 2;
-                int i2 = this.x0 + this.width / 2 + k1 / 2;
+        int rowTop = this.getRowTop(index);
+        int rowBottom = this.getRowBottom(index);
+        if (rowBottom >= this.y0 && rowTop <= this.y1) {
+            int entryYPos = y + index * this.itemHeight + this.headerHeight;
+            int entryHeight = this.itemHeight - 4;
+            Entry entry = this.getEntry(index);
+            int rowWidth = this.getScrollbarPosition();
+
+            if (this.isSelectedItem(index)) {
+                int xLeft = this.x0 + (this.width - rowWidth) / 2;
+
                 RenderSystem.disableTexture();
                 RenderSystem.setShader(GameRenderer::getPositionShader);
                 float focusedColor = this.isFocused() ? 1.0F : 0.5F;
-                RenderSystem.setShaderColor(focusedColor, focusedColor, focusedColor, 1F);
+                RenderSystem.setShaderColor(focusedColor, focusedColor, focusedColor, 0.8F);
+
                 bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
-                bufferBuilder.vertex(l1, (i1 + j1 + 2), 0.0D).endVertex();
-                bufferBuilder.vertex(i2, (i1 + j1 + 2), 0.0D).endVertex();
-                bufferBuilder.vertex(i2, (i1 - 2), 0.0D).endVertex();
-                bufferBuilder.vertex(l1, (i1 - 2), 0.0D).endVertex();
+                bufferBuilder.vertex(xLeft, (entryYPos + entryHeight + 2), 0.0D).endVertex();
+                bufferBuilder.vertex(rowWidth, (entryYPos + entryHeight + 2), 0.0D).endVertex();
+                bufferBuilder.vertex(rowWidth, (entryYPos - 2), 0.0D).endVertex();
+                bufferBuilder.vertex(xLeft, (entryYPos - 2), 0.0D).endVertex();
                 tesselator.end();
+
                 RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 1.0F);
                 bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
-                bufferBuilder.vertex(l1 + 1, i1 + j1 + 1, 0.0D).endVertex();
-                bufferBuilder.vertex(i2 - 1, i1 + j1 + 1, 0.0D).endVertex();
-                bufferBuilder.vertex(i2 - 1, i1 - 1, 0.0D).endVertex();
-                bufferBuilder.vertex(l1 + 1, i1 - 1, 0.0D).endVertex();
+                bufferBuilder.vertex(xLeft + 1, entryYPos + entryHeight + 1, 0.0D).endVertex();
+                bufferBuilder.vertex(rowWidth - 1, entryYPos + entryHeight + 1, 0.0D).endVertex();
+                bufferBuilder.vertex(rowWidth - 1, entryYPos - 1, 0.0D).endVertex();
+                bufferBuilder.vertex(xLeft + 1, entryYPos - 1, 0.0D).endVertex();
                 tesselator.end();
+
                 RenderSystem.enableTexture();
             }
 
-            int j2 = this.getRowLeft();
-            e.render(stack, index, k, j2, k1, j1, mouseX, mouseY, Objects.equals(this.hovered, e), partialTicks);
+            this.hovered = this.isMouseOver(mouseX, mouseY) ? this.getEntryAtPosition(mouseX, mouseY) : null;
+            entry.render(stack, index, rowTop, this.getRowLeft(), rowWidth, entryHeight, mouseX, mouseY, Objects.equals(this.hovered, entry), partialTicks);
         }
     }
 
@@ -163,6 +161,8 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
     }
 
     public class Entry extends ObjectSelectionList.Entry<Entry> {
+        private static final Color hoverColor = new Color(0, 0, 0, 77);
+
         @Getter
         private final LivingBeing livingBeing;
         private final ChooseRaceGui parent;
@@ -191,6 +191,12 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
 
         @Override
         public void render(PoseStack stack, int entryId, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isHovered, float partialTicks) {
+            if (top < RaceListWidget.this.y0 || top + entryHeight > RaceListWidget.this.y1) return;
+
+            if (isHovered) {
+                GuiUtils.drawGradientRect(stack.last().pose(), 0, left, top, entryWidth, top + entryHeight, hoverColor.getRGB(), hoverColor.getRGB());
+            }
+
             this.icon.setX(left + 3);
             this.icon.setY(top + (entryHeight - this.icon.getHeight()) / 2);
             this.icon.render(stack, mouseX, mouseY, partialTicks);

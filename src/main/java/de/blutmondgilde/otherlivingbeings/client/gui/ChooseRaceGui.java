@@ -45,7 +45,7 @@ public class ChooseRaceGui extends Screen {
 
     public ChooseRaceGui() {
         super(new TranslatableComponent(OtherLivingBeings.MOD_ID + ".gui.chooserace.title"));
-        this.livingBeings = GameRegistry.findRegistry(LivingBeing.class).getValues().stream().toList();
+        this.livingBeings = GameRegistry.findRegistry(LivingBeing.class).getValues().stream().filter(LivingBeing::isSelectable).toList();
     }
 
     @Override

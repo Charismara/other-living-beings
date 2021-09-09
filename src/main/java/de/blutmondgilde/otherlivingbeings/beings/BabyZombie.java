@@ -18,4 +18,9 @@ public class BabyZombie extends LivingBeing {
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.ZOMBIE;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return true;
+    }
 }

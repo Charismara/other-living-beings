@@ -19,4 +19,9 @@ public class MediumMagmaSlime extends LivingBeing {
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.MAGMA_CUBE;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }

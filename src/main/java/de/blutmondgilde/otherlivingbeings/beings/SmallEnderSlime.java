@@ -12,4 +12,9 @@ public class SmallEnderSlime extends LivingBeing {
     public SmallEnderSlime() {
         super(Optional.ofNullable(LivingBeings.ender_slime_medium), new TranslatableComponent(OtherLivingBeings.MOD_ID + ".being.smallenderslime.name"), List.of());
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }

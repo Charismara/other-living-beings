@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
+public abstract class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     private static final ResourceLocation NoIcon = new BeingResourceLocation("textures/entity_icon/none.png");
     private final Optional<LivingBeing> evolveInto;
     @Getter
@@ -47,4 +47,6 @@ public class LivingBeing extends ForgeRegistryEntry<LivingBeing> {
     public ResourceLocation getIcon() {
         return NoIcon;
     }
+
+    public abstract boolean isSelectable();
 }

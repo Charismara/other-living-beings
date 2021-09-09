@@ -18,4 +18,9 @@ public class ZombieVillager extends LivingBeing {
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.ZOMBIE_VILLAGER;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }

@@ -18,4 +18,9 @@ public class Husk extends LivingBeing {
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.HUSK;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }

@@ -44,7 +44,7 @@ public class AnimatableText extends GuiComponent implements Widget {
         this.text = text;
         this.parent = parent;
         this.color = new Color(1F, 1F, 1F);
-        this.maxWith = maxWidth;
+        this.maxWith = maxWidth - 6;
         this.animation = Animation.None;
         this.font = parent.getMinecraft().font;
     }

@@ -11,4 +11,9 @@ public class MediumEnderSlime extends LivingBeing {
     public MediumEnderSlime() {
         super(Optional.empty(), new TranslatableComponent(OtherLivingBeings.MOD_ID + ".being.mediumenderslime.name"), List.of());
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }

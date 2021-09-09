@@ -19,4 +19,9 @@ public class MediumSlime extends LivingBeing {
     public ResourceLocation getIcon() {
         return OLBConstants.Icons.SLIME;
     }
+
+    @Override
+    public boolean isSelectable() {
+        return false;
+    }
 }
