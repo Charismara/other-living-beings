@@ -50,11 +50,11 @@ public class ChooseRaceGui extends Screen {
 
     @Override
     protected void init() {
-        listWidth = Math.max(Math.min(this.width / 3, 200), 100);
+        listWidth = Math.max(Math.min(this.width / 3, 150), 100);
         final int raceInfoWidth = this.width - this.listWidth - (PADDING * 3);
 
-        this.raceList = this.addRenderableWidget(new RaceListWidget(this, listWidth, PADDING, this.height - PADDING));
-        this.raceInfo = this.addRenderableWidget(new RaceInfoPanel(this.minecraft, raceInfoWidth, this.height - PADDING, PADDING));
+        this.raceList = this.addRenderableWidget(new RaceListWidget(this, listWidth, Math.round(this.height / 288F * 10), this.height - 8, Math.round(this.width / 512F * 20)));
+        this.raceInfo = this.addRenderableWidget(new RaceInfoPanel(this.minecraft, raceInfoWidth, this.height - PADDING, Math.round(this.height / 288F * 10)));
     }
 
     @Override
@@ -65,7 +65,6 @@ public class ChooseRaceGui extends Screen {
         this.raceList.render(stack, mouseX, mouseY, partialTicks);
         if (this.raceInfo != null) this.raceInfo.render(stack, mouseX, mouseY, partialTicks);
         super.render(stack, mouseX, mouseY, partialTicks);
-        renderDecoration(stack);
     }
 
     public Font getFontRenderer() {
@@ -201,7 +200,7 @@ public class ChooseRaceGui extends Screen {
         protected void drawPanel(PoseStack stack, int entryRight, int relativeY, Tesselator tess, int mouseX, int mouseY) {
             for (AnimatableText line : lines) {
                 if (line != null) {
-                    line.setX(left + PADDING);
+                    line.setX(left + this.width / 4);
                     line.setY(relativeY);
                     line.setAnimation(this.textAnimation);
                     line.render(stack, mouseX, mouseY, 0F);
@@ -295,10 +294,7 @@ public class ChooseRaceGui extends Screen {
     @Override
     public void renderBackground(PoseStack stack) {
         renderResourceLocation(stack, background, 512, 288, -1);
-    }
-
-    public void renderDecoration(PoseStack stack) {
-        renderResourceLocation(stack, decoration, 512, 288, 5);
+        renderResourceLocation(stack, decoration, 512, 288, 0);
     }
 
     private void renderResourceLocation(PoseStack stack, ResourceLocation location, int width, int height, int zLevel) {

@@ -29,13 +29,14 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
     private final ChooseRaceGui parent;
     private final Animation openingAnimation = new Animation(AnimationType.FadeIn, 50);
 
-    public RaceListWidget(ChooseRaceGui parent, int listWidth, int top, int bottom) {
+    public RaceListWidget(ChooseRaceGui parent, int listWidth, int top, int bottom, int left) {
         super(parent.getMinecraft(), listWidth, parent.height, top, bottom, parent.getFontRenderer().lineHeight * 2 + 8);
         this.listWidth = listWidth;
         this.parent = parent;
         this.refreshList();
         setRenderBackground(false);
         setRenderTopAndBottom(false);
+        setLeftPos(left);
     }
 
     @Override
