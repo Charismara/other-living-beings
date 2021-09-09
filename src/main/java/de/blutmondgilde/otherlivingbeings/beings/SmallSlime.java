@@ -14,6 +14,7 @@ import de.blutmondgilde.otherlivingbeings.client.event.RenderItemInHandEvent;
 import de.blutmondgilde.otherlivingbeings.client.event.RenderItemLayerEvent;
 import de.blutmondgilde.otherlivingbeings.client.model.SmallSlimeModel;
 import de.blutmondgilde.otherlivingbeings.registry.Abilities;
+import de.blutmondgilde.otherlivingbeings.registry.LivingBeings;
 import de.blutmondgilde.otherlivingbeings.util.OLBConstants;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -37,7 +38,7 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
     private static final ModelPart emptyPart = new ModelPart(new ArrayList<>(), new HashMap<>());
 
     public SmallSlime() {
-        super(Optional.empty(), new TranslatableComponent(OtherLivingBeings.MOD_ID + ".being.smallslime.name"), List.of());
+        super(Optional.ofNullable(LivingBeings.slime_medium), new TranslatableComponent(OtherLivingBeings.MOD_ID + ".being.smallslime.name"), List.of());
         addAbility(Abilities.SmallBeing);
         addAbility(Abilities.NoLegs);
         addAbility(Abilities.JumperTier1);
