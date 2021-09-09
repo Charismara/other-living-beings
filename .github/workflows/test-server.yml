@@ -39,13 +39,17 @@ jobs:
        java -jar forge-installer.jar --installServer
     - name: Copy Files
       run: |
+       cd server
        cp libraries/net/minecraft/server/1.17.1/server-1.17.1.jar ./minecraft_server.1.17.1.jar
        cp libraries/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-server.jar ./forge-server.jar
     - name: Setting Eula
       run: |
+       cd server
        cat > eula.txt
        eula=true
        ^D
     - name: Start Server
-      run: java -jar forge-server.jar nogui
+      run: |
+       cd server
+       java -jar forge-server.jar nogui
        
