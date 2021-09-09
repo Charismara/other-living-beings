@@ -32,7 +32,13 @@ jobs:
       run: mkdir server
     - name: Download Server Installer
       run: curl https://maven.minecraftforge.net/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-installer.jar -o server/forge-installer.jar
-    - name: Go to server dir
-      run: cd server/
-    - name: List files
-      run: ls
+    - name: Setup Server
+      run: |
+       mkdir server
+       cd server
+       curl https://maven.minecraftforge.net/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-installer.jar -o forge-installer.jar
+       java -jar forge-installer.jar --installServer
+       cp libraries/net/minecraft/server/1.17.1/server-1.17.1.jar ./minecraft_server.1.17.1.jar
+       cp libraries/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-server.jar ./forge-server.jar
+       java -jar forge-server.jar nogui
+       
