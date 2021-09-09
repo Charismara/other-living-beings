@@ -12,6 +12,7 @@ import de.blutmondgilde.otherlivingbeings.client.gui.animation.Animation;
 import de.blutmondgilde.otherlivingbeings.client.gui.animation.AnimationType;
 import de.blutmondgilde.otherlivingbeings.client.gui.widgets.AnimatableText;
 import de.blutmondgilde.otherlivingbeings.client.gui.widgets.RaceListWidget;
+import de.blutmondgilde.otherlivingbeings.util.BeingResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.ObjectSelectionList;
@@ -21,6 +22,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.ScrollPanel;
 import net.minecraftforge.fmllegacy.common.registry.GameRegistry;
 import org.lwjgl.opengl.GL11;
@@ -38,6 +40,8 @@ public class ChooseRaceGui extends Screen {
     private RaceListWidget.Entry selected;
     public int listWidth;
     private RaceInfoPanel raceInfo;
+    private static final ResourceLocation background = new BeingResourceLocation("textures/gui/choose_race_bg.png");
+    private static final ResourceLocation decoration = new BeingResourceLocation("textures/gui/choose_race_decoration.png");
 
     public ChooseRaceGui() {
         super(new TranslatableComponent(OtherLivingBeings.MOD_ID + ".gui.chooserace.title"));
@@ -55,11 +59,13 @@ public class ChooseRaceGui extends Screen {
 
     @Override
     public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(stack);
         super.render(stack, mouseX, mouseY, partialTicks);
 
         this.raceList.render(stack, mouseX, mouseY, partialTicks);
         if (this.raceInfo != null) this.raceInfo.render(stack, mouseX, mouseY, partialTicks);
         super.render(stack, mouseX, mouseY, partialTicks);
+        renderDecoration(stack);
     }
 
     public Font getFontRenderer() {
@@ -284,5 +290,41 @@ public class ChooseRaceGui extends Screen {
         this.init(mc, width, height);
         this.selected = selected;
         updateCache();
+    }
+
+    @Override
+    public void renderBackground(PoseStack stack) {
+        renderResourceLocation(stack, background, 512, 288, -1);
+    }
+
+    public void renderDecoration(PoseStack stack) {
+        renderResourceLocation(stack, decoration, 512, 288, 5);
+    }
+
+    private void renderResourceLocation(PoseStack stack, ResourceLocation location, int width, int height, int zLevel) {
+        RenderSystem.enableTexture();
+
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+
+        RenderSystem.setShaderTexture(0, location);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1F);
+
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(519);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        float widthScale = this.width / (float) width;
+        float heightScale = this.height / (float) height;
+        stack.scale(widthScale, heightScale, 1F);
+
+        blit(stack, 0, 0, zLevel, 0, 0, width, height, height, width);
+
+        stack.scale(1F / widthScale, 1F / heightScale, 1F);
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1F);
+        RenderSystem.disableBlend();
+        RenderSystem.depthFunc(515);
+        RenderSystem.disableDepthTest();
+        RenderSystem.disableTexture();
     }
 }
