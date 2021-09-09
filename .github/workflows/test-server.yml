@@ -16,7 +16,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-
+    outputs:
+     forge-server-output: ${{steps.runningserver.outputs.forge-server-output}}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 16
@@ -45,11 +46,15 @@ jobs:
     - name: Setting Eula
       run: |
        cd server
-       cat > eula.txt
-       eula=true
-       ^D
-    - name: Start Server
+       echo "eula=true" > eula.txt
+    - name: Start Server 
       run: |
        cd server
-       java -jar forge-server.jar nogui
-       
+       echo "::set-output name=forge-server-output::$(java -jar forge-server.jar nogui)\n"
+       stop
+      continue-on-error: true
+      id: runningserver
+    - name: Check Server has started successfully
+      id: result
+      if: contains(steps.runningserver, "For help, type")
+      run: echo "0"
