@@ -59,7 +59,7 @@ public class Icon extends GuiComponent implements Widget {
     }
 
     public static void blit(PoseStack poseStack, int x, int y, int z, float u, float v, int width, int height, int textureWidth, int textureHeight) {
-        innerBlit(poseStack, x, x + width, y, y + height, z, width, height, u, v, textureHeight, textureWidth);
+        innerBlit(poseStack, x, x + width, y, y + height, z, width, height, u, v, textureWidth, textureHeight);
     }
 
     private static void innerBlit(PoseStack poseStack, int x0, int x1, int y0, int y1, int z, int width, int height, float u0, float v0, int textureHeight, int textureWidth) {
