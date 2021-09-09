@@ -156,6 +156,7 @@ jar {
                 "MixinConfigs"            : "${project.modId}.mixins.json"
         ])
     }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 jar.finalizedBy('reobfJar')
