@@ -28,5 +28,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build      
+    - name: Make Server Dir
+      run: mkdir server
+    - name: Download Server Installer
+      run: curl https://maven.minecraftforge.net/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-installer.jar -o /server/forge-installer.jar
+    - name: Go to server dir
+      run: cd server/
     - name: List files
       run: ls
