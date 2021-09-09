@@ -199,6 +199,7 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
             this.text.setX(this.icon.getX() + icon.getWidth() + 3);
             this.text.setY(top + (entryHeight - font.lineHeight) / 2);
             this.text.setAlpha(this.animation.getProgression());
+            this.text.setAnimation(this.animation);
             this.text.render(stack, mouseX, mouseY, partialTicks);
         }
 
@@ -211,6 +212,7 @@ public class RaceListWidget extends ObjectSelectionList<RaceListWidget.Entry> {
 
         public void tick() {
             this.animation.tick();
+            this.text.tick();
         }
     }
 }

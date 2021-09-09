@@ -51,7 +51,8 @@ public class Animation {
     }
 
     public float getProgression() {
-        return Math.min(1F / this.totalTicks * getCurrentTick(), 1F);
+        if (totalTicks == currentTick) return 1F;
+        return Math.min(1F / this.totalTicks * currentTick, 1F);
     }
 
     public boolean isDone() {
