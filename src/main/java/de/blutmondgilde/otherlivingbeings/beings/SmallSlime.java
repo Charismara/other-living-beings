@@ -1,8 +1,7 @@
 package de.blutmondgilde.otherlivingbeings.beings;
 
 import com.mojang.math.Vector3f;
-import de.blutmondgilde.otherlivingbeings.client.event.RenderArmorEvent;
-import de.blutmondgilde.otherlivingbeings.client.event.RenderItemInHandEvent;
+import de.blutmondgilde.otherlivingbeings.OtherLivingBeings;
 import de.blutmondgilde.otherlivingbeings.api.client.model.PlayerModelReplacement;
 import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomArmorLayer;
 import de.blutmondgilde.otherlivingbeings.api.client.renderer.layer.CustomItemInHandLayer;
@@ -10,13 +9,17 @@ import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ArmorRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ItemInHandRenderListener;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.listeners.ModelRendererListener;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderArmorEvent;
+import de.blutmondgilde.otherlivingbeings.client.event.RenderItemInHandEvent;
 import de.blutmondgilde.otherlivingbeings.client.event.RenderItemLayerEvent;
 import de.blutmondgilde.otherlivingbeings.client.model.SmallSlimeModel;
 import de.blutmondgilde.otherlivingbeings.registry.Abilities;
+import de.blutmondgilde.otherlivingbeings.util.OLBConstants;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Items;
@@ -25,6 +28,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class SmallSlime extends LivingBeing implements ArmorRenderListener, ModelRendererListener, ItemInHandRenderListener {
@@ -33,7 +37,7 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
     private static final ModelPart emptyPart = new ModelPart(new ArrayList<>(), new HashMap<>());
 
     public SmallSlime() {
-        super(Optional.empty());
+        super(Optional.empty(), new TranslatableComponent(OtherLivingBeings.MOD_ID + ".being.smallslime.name"), List.of());
         addAbility(Abilities.SmallBeing);
         addAbility(Abilities.NoLegs);
         addAbility(Abilities.JumperTier1);
@@ -75,14 +79,12 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
         return model;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void beforeRenderArmor(final RenderArmorEvent.Pre e) {
         //Only Render the Helmet
         if (!e.getEquipmentSlot().equals(EquipmentSlot.HEAD)) e.setCanceled(true);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void applyArmorRenderModifier(final RenderArmorEvent.ApplyModifier e) {
         switch (e.getEquipmentSlot()) {
@@ -93,7 +95,6 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void resetArmorRenderModifier(final RenderArmorEvent.ResetModifier e) {
         switch (e.getEquipmentSlot()) {
@@ -105,13 +106,11 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void beforeItemInHandRender(RenderItemInHandEvent.Pre e) {
         //Nothing to do here
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void applyItemInHandRenderModifier(RenderItemInHandEvent.ApplyModifier e) {
         e.getPoseStack().translate(0, -0.5, -0.1);
@@ -128,7 +127,6 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
         e.getRenderer().model.rightArm.zRot = 0;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void resetItemInHandRenderModifier(RenderItemInHandEvent.ResetModifier e) {
         e.getPoseStack().translate(0, 0, 0);
@@ -139,9 +137,13 @@ public class SmallSlime extends LivingBeing implements ArmorRenderListener, Mode
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void onRenderItemInHand(RenderItemLayerEvent e) {
         e.getStack().mulPose(Vector3f.ZP.rotationDegrees(-e.getItemTransform().rotation.z()));
+    }
+
+    @Override
+    public ResourceLocation getIcon() {
+        return OLBConstants.Icons.DROWNED;
     }
 }

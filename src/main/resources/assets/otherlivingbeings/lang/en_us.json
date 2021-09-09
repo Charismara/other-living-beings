@@ -15,5 +15,17 @@
   "otherlivingbeings.ability.bouncy.0": "You are kinda bouncy.",
   "otherlivingbeings.ability.bouncy.1": "Instead of getting fall damage, you bounce off the block.",
   "otherlivingbeings.ability.shortbody.name": "Short Body",
-  "otherlivingbeings.ability.shortbody.0": "You are just a block tall."
+  "otherlivingbeings.ability.shortbody.0": "You are just a block tall.",
+  "otherlivingbeings.being.babyzombie.name": "Baby Zombie",
+  "otherlivingbeings.being.babyzombievillager.name": "Baby Zombie Villager",
+  "otherlivingbeings.being.drowned.name": "Drowned",
+  "otherlivingbeings.being.husk.name": "Husk",
+  "otherlivingbeings.being.mediumenderslime.name": "Medium Ender Slime",
+  "otherlivingbeings.being.mediumslime.name": "Medium Slime",
+  "otherlivingbeings.being.mediummagmaslime.name": "Medium Magma Slime",
+  "otherlivingbeings.being.smallenderslime.name": "Small Ender Slime",
+  "otherlivingbeings.being.smallmagmaslime.name": "Small Magma Slime",
+  "otherlivingbeings.being.smallslime.name": "Small Slime",
+  "otherlivingbeings.being.zombie.name": "Zombie",
+  "otherlivingbeings.being.zombievillager.name": "Zombie Villager"
 }
