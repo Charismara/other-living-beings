@@ -31,6 +31,7 @@ public class AnimatableText extends GuiComponent implements Widget {
     @Setter
     @Getter
     private Animation animation;
+    private final Font font;
 
     public AnimatableText(Screen parent, int x, int y, Component text, int maxWidth) {
         this(parent, x, y, 1F, text, maxWidth);
@@ -45,11 +46,11 @@ public class AnimatableText extends GuiComponent implements Widget {
         this.color = new Color(1F, 1F, 1F);
         this.maxWith = maxWidth;
         this.animation = Animation.None;
+        this.font = parent.getMinecraft().font;
     }
 
     @Override
     public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
-        final Font font = this.parent.getMinecraft().font;
         Component resultText = new TextComponent(getTextByProgression());
 
         RenderSystem.enableBlend();

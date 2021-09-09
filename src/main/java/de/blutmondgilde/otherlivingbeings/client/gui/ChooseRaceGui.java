@@ -8,6 +8,9 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import de.blutmondgilde.otherlivingbeings.OtherLivingBeings;
 import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
+import de.blutmondgilde.otherlivingbeings.client.gui.animation.Animation;
+import de.blutmondgilde.otherlivingbeings.client.gui.animation.AnimationType;
+import de.blutmondgilde.otherlivingbeings.client.gui.widgets.AnimatableText;
 import de.blutmondgilde.otherlivingbeings.client.gui.widgets.RaceListWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -15,13 +18,10 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraftforge.client.gui.ScrollPanel;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fmllegacy.common.registry.GameRegistry;
 import org.lwjgl.opengl.GL11;
 
@@ -46,7 +46,6 @@ public class ChooseRaceGui extends Screen {
 
     @Override
     protected void init() {
-        final int fullButtonHeight = PADDING + 20 + PADDING;
         listWidth = Math.max(Math.min(this.width / 3, 200), 100);
         final int raceInfoWidth = this.width - this.listWidth - (PADDING * 3);
 
@@ -84,13 +83,15 @@ public class ChooseRaceGui extends Screen {
             this.selected = this.raceList.children().stream().filter(entry -> entry.getLivingBeing() == selected.getLivingBeing()).findFirst().orElse(null);
             updateCache();
         }
+        this.raceInfo.tick();
     }
 
     class RaceInfoPanel extends ScrollPanel {
-        private List<FormattedCharSequence> lines = Collections.emptyList();
+        private List<AnimatableText> lines = Collections.emptyList();
         private final Minecraft client;
         private final int barLeft;
         private final int barWidth = 3;
+        private final Animation textAnimation = new Animation(AnimationType.FadeIn, 20);
 
         public RaceInfoPanel(Minecraft client, int width, int height, int top) {
             super(client, width, height, top, raceList.getRight() + PADDING);
@@ -98,29 +99,34 @@ public class ChooseRaceGui extends Screen {
             this.barLeft = this.left + this.width - barWidth;
         }
 
-        void setInfo(List<String> lines) {
+        void setInfo(List<Component> lines) {
+            checkAnimationReset(lines, this.lines);
             this.lines = resizeContent(lines);
+        }
+
+        void checkAnimationReset(List<Component> newList, List<AnimatableText> oldList) {
+            if (newList.isEmpty()) return;
+            if (oldList.isEmpty()) return;
+            if (newList.get(0).getString().equals(oldList.get(0).getText().getString())) return;
+            this.textAnimation.reset();
         }
 
         void clearInfo() {
             this.lines = Collections.emptyList();
+            this.textAnimation.reset();
         }
 
-        private List<FormattedCharSequence> resizeContent(List<String> lines) {
-            List<FormattedCharSequence> ret = new ArrayList<>();
-            for (String line : lines) {
+        private List<AnimatableText> resizeContent(List<Component> lines) {
+            List<AnimatableText> result = new ArrayList<>();
+            for (Component line : lines) {
                 if (line == null) {
-                    ret.add(null);
+                    result.add(null);
                     continue;
                 }
 
-                Component chat = ForgeHooks.newChatWithLinks(line, false);
-                int maxTextLength = this.width - 12;
-                if (maxTextLength >= 0) {
-                    ret.addAll(Language.getInstance().getVisualOrder(font.getSplitter().splitLines(chat, maxTextLength, Style.EMPTY)));
-                }
+                result.add(new AnimatableText(ChooseRaceGui.this, 0, 0, line, this.width - 12));
             }
-            return ret;
+            return result;
         }
 
         @Override
@@ -186,12 +192,13 @@ public class ChooseRaceGui extends Screen {
         }
 
         @Override
-        protected void drawPanel(PoseStack mStack, int entryRight, int relativeY, Tesselator tess, int mouseX, int mouseY) {
-            for (FormattedCharSequence line : lines) {
+        protected void drawPanel(PoseStack stack, int entryRight, int relativeY, Tesselator tess, int mouseX, int mouseY) {
+            for (AnimatableText line : lines) {
                 if (line != null) {
-                    RenderSystem.enableBlend();
-                    ChooseRaceGui.this.font.drawShadow(mStack, line, left + PADDING, relativeY, 0xFFFFFF);
-                    RenderSystem.disableBlend();
+                    line.setX(left + PADDING);
+                    line.setY(relativeY);
+                    line.setAnimation(this.textAnimation);
+                    line.render(stack, mouseX, mouseY, 0F);
                 }
                 relativeY += font.lineHeight;
             }
@@ -199,7 +206,7 @@ public class ChooseRaceGui extends Screen {
             final Style component = findTextLine(mouseX, mouseY);
 
             if (component != null) {
-                ChooseRaceGui.this.renderComponentHoverEffect(mStack, component, mouseX, mouseY);
+                ChooseRaceGui.this.renderComponentHoverEffect(stack, component, mouseX, mouseY);
             }
         }
 
@@ -223,7 +230,7 @@ public class ChooseRaceGui extends Screen {
             int lineIdx = (int) (offset / font.lineHeight);
             if (lineIdx >= lines.size() || lineIdx < 1) return null;
 
-            FormattedCharSequence line = lines.get(lineIdx - 1);
+            Component line = lines.get(lineIdx - 1).getText();
             if (line != null) {
                 return font.getSplitter().componentStyleAtWidth(line, mouseX - left - border);
             }
@@ -250,6 +257,12 @@ public class ChooseRaceGui extends Screen {
 
         @Override
         public void updateNarration(NarrationElementOutput p_169152_) {}
+
+        public void tick() {
+            if (!this.lines.isEmpty()) {
+                this.textAnimation.tick();
+            }
+        }
     }
 
     private void updateCache() {
@@ -259,8 +272,8 @@ public class ChooseRaceGui extends Screen {
         }
 
         LivingBeing selectedLivingBeing = selected.getLivingBeing();
-        List<String> lines = new ArrayList<>();
-        lines.add(selectedLivingBeing.getName().getString());
+        List<Component> lines = new ArrayList<>();
+        lines.add(selectedLivingBeing.getName());
 
         raceInfo.setInfo(lines);
     }

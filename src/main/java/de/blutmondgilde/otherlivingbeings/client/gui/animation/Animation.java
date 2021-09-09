@@ -58,4 +58,9 @@ public class Animation {
     public boolean isDone() {
         return this.remainingTicks == 0;
     }
+
+    public void reset() {
+        this.currentTick = 0;
+        this.remainingTicks = this.totalTicks;
+    }
 }
