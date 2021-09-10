@@ -48,6 +48,7 @@ jobs:
       id: runningserver
       run: |
        cd server
+       chmod 777 forge-server.jar
        echo "::set-output name=forge-server-output::$(java -jar forge-server.jar nogui)\n"
        stop
       continue-on-error: true
