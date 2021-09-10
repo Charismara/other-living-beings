@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-    outputs:
-     forge-server-output: ${{steps.runningserver.outputs.forge-server-output}}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 16
@@ -48,13 +46,14 @@ jobs:
        cd server
        echo "eula=true" > eula.txt
     - name: Start Server 
+      id: runningserver
       run: |
        cd server
        echo "::set-output name=forge-server-output::$(java -jar forge-server.jar nogui)\n"
        stop
       continue-on-error: true
-      id: runningserver
     - name: Check Server has started successfully
       id: result
-      if: ${{contains(steps.runningserver.outputs.forge-server-output, 'For help, type')}}
-      run: echo "0"
+      if: contains(join(steps.runningserver.outputs.*,'\n'), 'For help, type') == false
+      run: echo "-1"
+      
