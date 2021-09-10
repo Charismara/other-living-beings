@@ -30,8 +30,10 @@ jobs:
     - name : Setup Server Installer
       run: |
        mkdir server
+       ls
+       cp installServer.sh server/installServer.sh
        cd server
-       cp ../installServer.sh ./installServer.sh
+       ls
       shell: bash
     - name: Install Server
       run: |
