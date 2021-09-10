@@ -32,8 +32,6 @@ jobs:
        mkdir server
        cd server
        curl https://pastebin.com/raw/C3YdSJAz -o installServer.sh
-       chmod +x installServer.sh
-       ./installServer.sh
       shell: bash
     - name: Install Server
       run: |
