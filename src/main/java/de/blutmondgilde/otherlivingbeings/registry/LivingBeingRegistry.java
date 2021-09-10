@@ -5,6 +5,7 @@ import de.blutmondgilde.otherlivingbeings.api.livingbeings.LivingBeing;
 import de.blutmondgilde.otherlivingbeings.beings.BabyZombie;
 import de.blutmondgilde.otherlivingbeings.beings.BabyZombieVillager;
 import de.blutmondgilde.otherlivingbeings.beings.Drowned;
+import de.blutmondgilde.otherlivingbeings.beings.Human;
 import de.blutmondgilde.otherlivingbeings.beings.Husk;
 import de.blutmondgilde.otherlivingbeings.beings.MediumEnderSlime;
 import de.blutmondgilde.otherlivingbeings.beings.MediumMagmaSlime;
@@ -35,6 +36,7 @@ public class LivingBeingRegistry {
     private static final RegistryObject<LivingBeing> zombie_villager = registry.register("zombie_villager", ZombieVillager::new);
     private static final RegistryObject<LivingBeing> husk = registry.register("husk", Husk::new);
     private static final RegistryObject<LivingBeing> drowned = registry.register("drowned", Drowned::new);
+    private static final RegistryObject<LivingBeing> human = registry.register("human", Human::new);
 
     public static void init(final IEventBus modEventBus) {
         registry.makeRegistry("living_beings", RegistryBuilder::new);

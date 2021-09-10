@@ -20,7 +20,7 @@ public class OLBCapabilityManager {
 
     public static void attachCapabilities(final AttachCapabilitiesEvent<Entity> e) {
         if (BeingCapabilityImpl.canAttachTo(e.getObject())) {
-            e.addCapability(new ResourceLocation(OtherLivingBeings.MOD_ID, "being_cap"), new BeingCapabilityImpl(LivingBeings.small_slime, false));
+            e.addCapability(new ResourceLocation(OtherLivingBeings.MOD_ID, "being_cap"), new BeingCapabilityImpl(LivingBeings.human, false));
         }
     }
 }

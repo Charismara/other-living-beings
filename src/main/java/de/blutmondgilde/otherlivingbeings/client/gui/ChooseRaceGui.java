@@ -279,6 +279,7 @@ public class ChooseRaceGui extends Screen {
         LivingBeing selectedLivingBeing = selected.getLivingBeing();
         List<Component> lines = new ArrayList<>();
         lines.add(selectedLivingBeing.getName());
+        lines.addAll(selectedLivingBeing.getDescriptionLines());
 
         raceInfo.setInfo(lines);
     }

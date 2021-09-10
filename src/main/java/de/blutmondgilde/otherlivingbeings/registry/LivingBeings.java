@@ -32,4 +32,6 @@ public class LivingBeings {
     public static final LivingBeing husk = null;
     @ObjectHolder("drowned")
     public static final LivingBeing drowned = null;
+    @ObjectHolder("human")
+    public static final LivingBeing human = null;
 }
