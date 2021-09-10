@@ -1,9 +1,5 @@
 FORGE_VERSION=1.17.1-37.0.58
 #Go into main direction
-if [ ! -d server ]; then
-mkdir server
-fi
-cd server || exit
 if [ -n "${FORGE_VERSION}" ]; then
 DOWNLOAD_LINK=https://maven.minecraftforge.net/net/minecraftforge/forge/${FORGE_VERSION}/forge-${FORGE_VERSION}
 FORGE_JAR="forge-${FORGE_VERSION}*.jar"
