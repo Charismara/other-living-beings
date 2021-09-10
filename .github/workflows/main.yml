@@ -100,15 +100,30 @@ jobs:
         run: |
           cd server
           echo "eula=true" > eula.txt
+      - name: Setting JVM Settings
+        run: |
+         cd server
+         rm user_jvm_args.txt
+         echo "-Xms128M" > user_jvm_args.txt
+      - name: Edit run.sh
+        run: |
+         cd server
+         sed '1,4d' run.sh
+         sed '1s/$/ nogui/' run.sh
+         cat run.sh
+      - name: Grant execute permission for run.sh 
+        run: |
+         cd server
+         chmod +x run.sh
       - name: Start Server
         id: runningserver
         run: |
           cd server
           ls
-          chmod 777 forge-server.jar
-          echo "::set-output name=forge-server-output::$(java -jar forge-server.jar nogui)\n"
+          echo "::set-output name=forge-server-output::$(./run.sh)\n"
           stop
         continue-on-error: true
+        shell: sh
       - name: Check Server has started successfully
         id: result
         if: contains(join(steps.runningserver.outputs.*,'\n'), 'For help, type') == false
