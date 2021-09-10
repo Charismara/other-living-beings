@@ -27,7 +27,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name : Download Server Installer & Install Server
+    - name : Download Server Installer
       run: |
        mkdir server
        cd server
@@ -35,6 +35,11 @@ jobs:
        chmod +x installServer.sh
        ./installServer.sh
       shell: bash
+    - name: Install Server
+      run: |
+       cd server
+       chmod +x installServer.sh
+       ./installServer.sh
     - name: Setting Eula
       run: |
        cd server
