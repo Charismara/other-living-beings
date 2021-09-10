@@ -55,5 +55,7 @@ jobs:
     - name: Check Server has started successfully
       id: result
       if: contains(join(steps.runningserver.outputs.*,'\n'), 'For help, type') == false
-      run: echo "-1"
-      
+      uses: actions/github-script@v3
+      with:
+       script: |
+        core.setFailed('Server Failed starting!')
