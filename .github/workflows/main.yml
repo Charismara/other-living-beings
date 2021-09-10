@@ -6,12 +6,32 @@ name: Check Server
 on:
   push:
     branches: [ master ]
+    paths-ignore: 
+     - '.github/**'
   pull_request:
     branches: [ master ]
 
 jobs:
   build-test:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 16
+      uses: actions/setup-java@v2
+      with:
+        java-version: '16'
+        distribution: 'adopt'
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew build
+      
+  server-test:
+    needs: [build-test]
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
