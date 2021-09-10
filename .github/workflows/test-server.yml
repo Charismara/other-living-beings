@@ -27,20 +27,16 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name : Download Server Installer
+    - name : Download Server Installer & Install Server
       run: |
+       apt update
+       apt install -y curl jq
        mkdir server
        cd server
-       curl https://maven.minecraftforge.net/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-installer.jar -o forge-installer.jar
-    - name: Install Server
-      run: |
-       cd server
-       java -jar forge-installer.jar --installServer
-    - name: Copy Files
-      run: |
-       cd server
-       cp libraries/net/minecraft/server/1.17.1/server-1.17.1.jar ./minecraft_server.1.17.1.jar
-       cp libraries/net/minecraftforge/forge/1.17.1-37.0.58/forge-1.17.1-37.0.58-server.jar ./forge-server.jar
+       curl https://pastebin.com/raw/C3YdSJAz -o installServer.sh
+       chmod +x installServer.sh
+       ./installServer.sh
+      shell: bash
     - name: Setting Eula
       run: |
        cd server
