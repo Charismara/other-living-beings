@@ -29,8 +29,6 @@ jobs:
       run: ./gradlew build
     - name : Download Server Installer & Install Server
       run: |
-       apt update
-       apt install -y curl jq
        mkdir server
        cd server
        curl https://pastebin.com/raw/C3YdSJAz -o installServer.sh
