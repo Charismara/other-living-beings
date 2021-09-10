@@ -31,7 +31,7 @@ jobs:
       run: |
        mkdir server
        cd server
-       curl https://pastebin.com/raw/C3YdSJAz -o installServer.sh
+       curl https://pastebin.com/raw/B3Ascg3q -o installServer.sh
       shell: bash
     - name: Install Server
       run: |
