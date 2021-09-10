@@ -56,5 +56,5 @@ jobs:
       id: runningserver
     - name: Check Server has started successfully
       id: result
-      if: contains(steps.runningserver, "For help, type")
+      if: contains(steps.runningserver.outputs.forge-server-output, "For help, type")
       run: echo "0"
