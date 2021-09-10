@@ -31,15 +31,15 @@ jobs:
       run: |
        mkdir server
        ls
-       cp installServer.sh server/installServer.sh
+       cp serverInstaller.sh.sh server/serverInstaller.sh.sh
        cd server
        ls
       shell: bash
     - name: Install Server
       run: |
        cd server
-       chmod +x installServer.sh
-       ./installServer.sh
+       chmod +x serverInstaller.sh.sh
+       ./serverInstaller.sh.sh
     - name: Setting Eula
       run: |
        cd server
